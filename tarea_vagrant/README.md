@@ -42,12 +42,14 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "script.sh"
 end
 ```
-1. Vagrant.configure("2") do |config|: Define el inicio del bloque de configuración utilizando la API versión 2 de Vagrant.
-2. config.vm.box = "debian/12": Indica la imagen base Debian 12 a utilizar.
-3. config.vm.hostname = "tu-nombre-vm": Establece el nombre de host identificable para el SO virtualizado.
-4. config.vm.network "private_network", ip: "192.168.56.10": Configura la segunda interfaz de red como red privada con una IP fija.
-5. config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1": Mapea el puerto 80 de la VM al 8080 local del anfitrión restringido a 127.0.0.1.
-6. config.vm.provision "shell", path: "script.sh": Lanza un script de Bash ubicado en la máquina anfitriona para la instalación y configuración automática.
+	- Vagrant.configure("2") do |config|: Define el inicio del bloque de configuración utilizando la API versión 2 de Vagrant.
+	- config.vm.box = "debian/12": Indica la imagen base Debian 12 a utilizar.
+	- config.vm.hostname = "tu-nombre-vm": Establece el nombre de host identificable para el SO virtualizado.
+	- config.vm.network "private_network", ip: "192.168.56.10": Configura la segunda interfaz de red como red privada con una IP fija.
+	- config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1": Mapea el puerto 80 de la VM al 8080 local del anfitrión restringido a 127.0.0.1.
+	- config.vm.provision "shell", path: "script.sh": Lanza un script de Bash ubicado en la máquina anfitriona para la instalación y configuración automática.
+
+---
 
 2. **Aprovisionamiento.** Investiga qué es un **provisioner**, dónde se ejecuta el script, cuándo lo lanza Vagrant y qué diferencia hay entre `inline:` y `path:`. Explica qué ocurre si modificas el script después del primer `vagrant up` y cómo lo ejecutarías de nuevo.
 
