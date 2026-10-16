@@ -11,7 +11,8 @@
 
 ---
 
-##Índice
+## Índice
+
 
 
 ---
@@ -24,11 +25,49 @@ Vagrant es una herramienta que automatiza la creación y gestión de entornos de
 ### Parte A. Investiga antes de modificar el entorno
 1. **Vagrant y el Vagrantfile.** Explica brevemente qué problema resuelve Vagrant y distingue el anfitrión, el proveedor de virtualización, la box y la máquina virtual. Averigua en qué lenguaje está escrito el `Vagrantfile`. Analiza el archivo inicial y, al terminar la práctica, comenta **cada línea activa del archivo final**: qué configura, por qué la añadiste y cómo compruebas que ha surtido efecto.
 
+- Vagrant resuelve el problema de "en mi máquina funciona" automatizando la creación, configuración y aprovisionamiento de entornos de desarrollo reproducibles y portables mediante archivos de configuración compatibles en control de versiones.
+- Conceptos clave:
+	- El anfitrión es tu equipo fñisico donde ejecutas el software de virtualización y Vagrant.
+	- El proovedor de virtualización es el hipervisor que utilizas encargado de crear y gestionar la máquina virtual.
+	- Box es la imagen base preconfigurada desde la cual se descarga e inicializa la máquina virtual.
+	- La máquina virtual es el sistema operativo que se ejecutra dentro del hipervisor.
+- El Vagrantfile está escrito en el lenguaje llamado Ruby.
+
+```
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/12"
+  config.vm.hostname = "tu-nombre-vm"
+  config.vm.network "private_network", ip: "192.168.56.10"
+  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+  config.vm.provision "shell", path: "script.sh"
+end
+```
+1. Vagrant.configure("2") do |config|: Define el inicio del bloque de configuración utilizando la API versión 2 de Vagrant.
+2. config.vm.box = "debian/12": Indica la imagen base Debian 12 a utilizar.
+3. config.vm.hostname = "tu-nombre-vm": Establece el nombre de host identificable para el SO virtualizado.
+4. config.vm.network "private_network", ip: "192.168.56.10": Configura la segunda interfaz de red como red privada con una IP fija.
+5. config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1": Mapea el puerto 80 de la VM al 8080 local del anfitrión restringido a 127.0.0.1.
+6. config.vm.provision "shell", path: "script.sh": Lanza un script de Bash ubicado en la máquina anfitriona para la instalación y configuración automática.
+
 2. **Aprovisionamiento.** Investiga qué es un **provisioner**, dónde se ejecuta el script, cuándo lo lanza Vagrant y qué diferencia hay entre `inline:` y `path:`. Explica qué ocurre si modificas el script después del primer `vagrant up` y cómo lo ejecutarías de nuevo.
+
+- **¿Qué es?:** Es una herramienta utilizada por Vagrant para ejecutar comandos o scripts automáticamente al crear la VM.
+- **Ubicación de ejecución:** Se ejecuta dentro de la máquina virtual.
+- **¿Cuándo se lanza?:** Automáticamente la primera vez al ejecutar vagrant up. En arranques posteriores, no se vuelve a ejecutar salvo que se especifique explicitamente la bandera --provision o el comando dedicado vagrant provision.
+- **Diferencia entre inline: y path: :**
+	- **inline:** Permite escribir directamente una línea o conjunto de comandos shell integrados en el código Ruby del Vagrantfile.
+	- **path:** Apunta a un archivo de script externo (ej. script.sh) presente en la máquina anfitriona.   
+- **Si modificas el script tras el primer vagrant up:** La modificación no se aplicará automáticamente. Para volver a ejecutar únicamente el script se debe usar:
+
+```
+vagrant provision
+```
 
 3. **Interfaces y redes** Investiga qué conexión de red configura Vagrant por defecto y para qué la utiliza. Averigua cómo se añade en el Vagrantfile una segunda interfaz con dirección IP fija. Compara NAT, red interna, red privada host-only y red pública: explica con quién puede comunicarse la máquina en cada caso y qué función cumple el reenvío de puertos. 
 Presta especial atención a la diferencia entre la red interna de VirtualBox y la red privada host-only de VMware. Investiga cómo se configura la segunda interfaz en el proveedor que utilices. ¿Añadirla elimina la NAT predeterminada? ¿El reenvío de puertos crea una interfaz nueva?
 En la parte C configurarás una máquina con dos interfaces: NAT y red de laboratorio. Examina después sus direcciones y rutas de red, relaciona lo observado con el Vagrantfile e incluye un esquema de la arquitectura en tu README.md. Como solo hay una máquina, no se pide demostrar comunicación con otra VM.
+
+
 
 4. **Órdenes y carpeta compartida.** En una tabla breve, indica cuándo usarías `up`, `status`, `ssh`, `reload`, `provision`, `halt` y `destroy`; marca cuáles llegaste a ejecutar. Averigua qué es `/vagrant` y comprueba qué archivos aparecen allí.
 
