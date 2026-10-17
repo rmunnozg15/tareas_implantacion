@@ -13,7 +13,20 @@
 
 ## Índice
 
-
+- [1. Introducción y Justificación](#1-introducción-y-justificación)
+  - [Parte A. Investiga antes de modificar el entorno](#parte-a-investiga-antes-de-modificar-el-entorno)
+    - [1. Vagrant y el Vagrantfile](#1-vagrant-y-el-vagrantfile)
+    - [2. Aprovisionamiento](#2-aprovisionamiento)
+    - [3. Interfaces y redes](#3-interfaces-y-redes)
+    - [4. Órdenes y carpeta compartida](#4-órdenes-y-carpeta-compartida)
+  - [Parte B. Mi primera máquina en Vagrant](#parte-b-mi-primera-máquina-en-vagrant)
+  - [Parte C. Completa el Vagrantfile](#parte-c-completa-el-vagrantfile)
+  - [Parte D. Aprovisiona Apache](#parte-d-aprovisiona-apache)
+- [2. Esquema de Arquitectura de Red](#2-esquema-de-arquitectura-de-red)
+- [3. Configuración del Vagrantfile](#3-configuración-del-vagrantfile)
+- [4. Script de Aprovisionamiento (`script.sh`)](#4-script-de-aprovisionamiento-scriptsh)
+  - [Explicación de las órdenes del script](#explicación-de-las-órdenes-del-script)
+- [5. Pruebas de Funcionamiento y Verificación](#5-pruebas-de-funcionamiento-y-verificación)
 
 ---
 
@@ -27,7 +40,7 @@ Vagrant es una herramienta que automatiza la creación y gestión de entornos de
 
 - Vagrant resuelve el problema de "en mi máquina funciona" automatizando la creación, configuración y aprovisionamiento de entornos de desarrollo reproducibles y portables mediante archivos de configuración compatibles en control de versiones.
 - Conceptos clave:
-	- El anfitrión es tu equipo fñisico donde ejecutas el software de virtualización y Vagrant.
+	- El anfitrión es tu equipo físico donde ejecutas el software de virtualización y Vagrant.
 	- El proovedor de virtualización es el hipervisor que utilizas encargado de crear y gestionar la máquina virtual.
 	- Box es la imagen base preconfigurada desde la cual se descarga e inicializa la máquina virtual.
 	- La máquina virtual es el sistema operativo que se ejecutra dentro del hipervisor.
@@ -42,7 +55,7 @@ Vagrant es una herramienta que automatiza la creación y gestión de entornos de
 - **¿Cuándo se lanza?:** Automáticamente la primera vez al ejecutar vagrant up. En arranques posteriores, no se vuelve a ejecutar salvo que se especifique explicitamente la bandera --provision o el comando dedicado vagrant provision.
 - **Diferencia entre inline: y path: :**
 	- **inline:** Permite escribir directamente una línea o conjunto de comandos shell integrados en el código Ruby del Vagrantfile.
-	- **path:** Apunta a un archivo de script externo (ej. script.sh) presente en la máquina anfitriona.   
+	- **path:** Apunta a un archivo de script externo (ej. script.sh) presente en la máquina anfitriona.
 - **Si modificas el script tras el primer vagrant up:** La modificación no se aplicará automáticamente. Para volver a ejecutar únicamente el script se debe usar:
 
 ```
@@ -120,13 +133,31 @@ Anfitrión (browser en localhost:8080) ---> [NAT / Puerto 8080] ---> VM Debian (
 Contenido detallado del archivo `Vagrantfile` utilizado en el proyecto:
 
 ```ruby
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
 Vagrant.configure("2") do |config|
+  # Box base Debian 12
   config.vm.box = "debian/12"
-  config.vm.hostname = "servidor-debian-juan"
+
+  # Hostname identificable con tu nombre
+  config.vm.hostname = "robertodebian"
+
+  # Forzar a VirtualBox a utilizar el resolvedor DNS del sistema anfitrión
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+  end
+
+
+  # Segunda interfaz de red privada (Host-Only / Red Interna) con IP fija
   config.vm.network "private_network", ip: "192.168.56.10"
+
+  # Reenvío del puerto 80 de la VM al 8080 del host exclusivo por 127.0.0.1
   config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  # Vincular el script Bash de aprovisionamiento externo
   config.vm.provision "shell", path: "script.sh"
-end
+end 
 ```
 
 ## 4. Script de Aprovisionamiento (`script.sh`)
@@ -145,7 +176,7 @@ cat <<EOF> /var/www/html/index.html
 <head><title>Vagrant Apache</title></head>
 <body>
     <h1>Servidor Web Desplegado</h1>
-    <p>Nombre: Juan Pérez</p>
+    <p>Nombre: Roberto Muñoz </p>
     <p>Hostname: $(hostname)</p>
 </body>
 </html>
@@ -165,9 +196,8 @@ EOF
    * Verificación del nombre de host: `hostname`
    * Inspección de IPs: `ip a`
    * Comprobación de rutas de red: `ip route`
-   
+   ![Conexión po shh](captura_ssh.png)
+
 2. **Acceso desde el Host Anfitrión:**
    * Abriendo un navegador en el anfitrión e ingresando a `http://127.0.0.1:8080` o `http://192.168.56.10`.
-   
-![Conexión po shh](captura_ssh.png)
-*(Aquí se deben insertar las capturas de pantalla de la terminal y del navegador cargando la página web).*
+   ![Conexión po shh](captura_web.png)
