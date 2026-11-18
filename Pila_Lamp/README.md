@@ -908,7 +908,7 @@ También enseñaré brevemente que la aplicación y la base de datos funcionan e
 grabacion/recorrido.mp4
 ```
 
-![Demostración del resultado](./grabacion/recorrido.mp4)
+[\[URL del vídeo\]](https://youtu.be/W4Z7k-gSgQ8)
 
 ---
 
