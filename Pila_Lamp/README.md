@@ -627,8 +627,6 @@ Si se trata del primer despliegue de las máquinas, el aprovisionamiento se ejec
 vagrant up
 ```
 
-![Instalación del motor SQL](./pruebas/04-instalacion/despliegue-sql.png)
-
 Durante el aprovisionamiento se instalan MariaDB y nftables, se configura el servicio de base de datos, se crea el usuario de la aplicación y se importa el archivo SQL.
 
 Al finalizar, se activa el cortafuegos con las reglas definidas para permitir la comunicación privada entre los dos servidores y restringir el acceso exterior.
