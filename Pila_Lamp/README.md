@@ -627,8 +627,6 @@ Si se trata del primer despliegue de las máquinas, el aprovisionamiento se ejec
 vagrant up
 ```
 
-![Instalación del motor SQL](./pruebas/04-instalacion/despliegue-sql.png)
-
 Durante el aprovisionamiento se instalan MariaDB y nftables, se configura el servicio de base de datos, se crea el usuario de la aplicación y se importa el archivo SQL.
 
 Al finalizar, se activa el cortafuegos con las reglas definidas para permitir la comunicación privada entre los dos servidores y restringir el acceso exterior.
@@ -910,7 +908,7 @@ También enseñaré brevemente que la aplicación y la base de datos funcionan e
 grabacion/recorrido.mp4
 ```
 
-![Demostración del resultado](./grabacion/recorrido.mp4)
+[\[URL del vídeo\]](https://youtu.be/W4Z7k-gSgQ8)
 
 ---
 
@@ -930,7 +928,7 @@ LAMPDosNiveles.pdf: documentación sobre la separación del servidor web y el se
 
 ## Datos del trabajo
 
-**Realizado por:** Roberto Muñoz Galán  
+**Realizado por:** Roberto Muñoz Galán 
 **Ciclo formativo:** ASIR 2
 **Módulo:** Implantación de Aplicaciones Web
 
