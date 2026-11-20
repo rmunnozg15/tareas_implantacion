@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Laboratorio de servidores virtuales
 ### Montaje y comprobación de un entorno web con base de datos independiente
 
