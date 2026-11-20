@@ -1869,4 +1869,3 @@ LAMPDosNiveles.pdf: documentación sobre la separación del servidor web y el se
 **Módulo:** Implantación de Aplicaciones Web
 
 **Fecha de realización:** 18/11/2026
->>>>>>> 4680963fba0187eb30e25dfa6a1b4a7e23111a3d
