@@ -1,0 +1,43 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64"
+  config.vm.box_check_update = false
+
+  # Redes privadas de laboratorio (host-only). El frontal publica 8080 en Windows.
+  config.vm.define "BBDD" do |db|
+    db.vm.hostname = "bbdd-roberto"
+    db.vm.network "private_network", ip: "192.168.56.13"
+    db.vm.provision "shell", path: "provision/bbdd.sh"
+    db.vm.provider "virtualbox" do |vb|
+      vb.name = "BBDD_Roberto"
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+  end
+
+  [ ["Web1", "192.168.56.11"], ["Web2", "192.168.56.12"] ].each do |name, ip|
+    config.vm.define name do |web|
+      web.vm.hostname = "#{name.downcase}-roberto"
+      web.vm.network "private_network", ip: ip
+      web.vm.provision "shell", path: "provision/web.sh", args: [ip, name]
+      web.vm.provider "virtualbox" do |vb|
+        vb.name = "#{name}_Roberto"
+        vb.memory = 1024
+        vb.cpus = 1
+      end
+    end
+  end
+
+  config.vm.define "Balanceador" do |lb|
+    lb.vm.hostname = "balanceador-roberto"
+    lb.vm.network "private_network", ip: "192.168.56.10"
+    # Puente Wi-Fi para que el router pueda reenviar HTTP/HTTPS al frontal
+    lb.vm.network "public_network", ip: "192.168.0.14", bridge: "Realtek RTL8852BE WiFi 6 802.11ax PCIe Adapter"
+    lb.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1", auto_correct: true
+    lb.vm.provision "shell", path: "provision/balanceador.sh"
+    lb.vm.provider "virtualbox" do |vb|
+      vb.name = "BalanceadorRoberto"
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+  end
+end
