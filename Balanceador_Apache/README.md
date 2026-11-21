@@ -504,7 +504,7 @@ Esta captura añadida a continuación muestra una petición desde el balanceador
 
 ## 10 / Vídeo demostración
 
-[\[URL del vídeo\]](https://https://youtu.be/RsxlzajpWgY)
+[\[URL del vídeo\]](https://www.youtube.com/watch?v=RsxlzajpWgY)
 
 
 ---
