@@ -220,7 +220,6 @@ ip route
 Las cuatro máquinas utilizan actualmente una única red privada host-only `192.168.56.0/24`. En esta configuración, las direcciones privadas permiten las comunicaciones entre capas, pero no se han creado tres subredes independientes.
 
 **Capturas de red:**  
-Capturas de interfaces y rutas. Guarda cada archivo con el nombre indicado en `pruebas/03-red/`:
 
 **Interfaces y rutas del balanceador**
 ![Interfaces y rutas del balanceador](./pruebas/03-red/01_interfaces_rutas_balanceador.png)
@@ -504,7 +503,7 @@ Esta captura añadida a continuación muestra una petición desde el balanceador
 
 ## 10 / Vídeo demostración
 
-![Vídeo Demostración](./grabacion/video_balanceador.mp4)
+[\[URL del vídeo\]](https://www.youtube.com/watch?v=RsxlzajpWgY)
 
 
 ---
