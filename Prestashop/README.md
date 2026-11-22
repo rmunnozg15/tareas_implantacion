@@ -39,8 +39,6 @@ La máquina de Vagrant se define como PrestashopRoberto y utiliza Ubuntu Server 
 | HTTP / HTTPS local | 127.0.0.1:8081 / 127.0.0.1:8444 |
 | Servicios | Apache, PHP y MariaDB |
 
-> Estado inicial: archivos y guía preparados. La VM, la tienda, el dominio y las pruebas aún deben ejecutarse. No marques una fase como completada sin verificarla.
-
 ---
 
 ## 01 / Preparación del escenario
