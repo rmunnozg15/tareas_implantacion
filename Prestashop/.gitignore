@@ -1,0 +1,4 @@
+scripts/.env
+.vagrant/
+.vagrant-home/
+*.log
