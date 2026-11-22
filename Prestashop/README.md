@@ -17,7 +17,6 @@
 - [06 / Instalación de PrestaShop desde CLI](#06--instalación-de-prestashop-desde-cli)
 - [07 / Dominio y certificado HTTPS](#07--dominio-y-certificado-https)
 - [08 / Pruebas de la tienda](#08--pruebas-de-la-tienda)
-- [09 / Evidencias y vídeo](#09--evidencias-y-vídeo)
 - [Incidencias y limitaciones](#incidencias-y-limitaciones)
 - [Recursos utilizados](#recursos-utilizados)
 - [Datos del trabajo](#datos-del-trabajo)
